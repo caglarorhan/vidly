@@ -16,13 +16,13 @@ const Author = mongoose.model('Author', authorSchema);
 // it occurs in database as subdocument (document in document)
 const Course = mongoose.model('Course', new mongoose.Schema({
     name: String,
-    author: authorSchema
+    authors: [authorSchema]
 }));
 
-async function createCourse(name, author) {
+async function createCourse(name, authors) {
     const course = new Course({
         name,
-        author
+        authors
     });
 
     const result = await course.save();
@@ -64,5 +64,9 @@ async function deleteAuthor(courseId){
 
 
 //updateAuthor('5cf083fb99567e9ff0278d58').then(()=>console.log('Guncellendi!')).catch(err=>console.log(`Hata olustu: ${err}`));
-//createCourse('Node Course', new Author({ name: 'Mosh' }));
-deleteAuthor('5cf083fb99567e9ff0278d58').then(()=>console.log('Guncellendi (Silindi)!')).catch(err=>console.log(`Hata olustu: ${err}`));
+createCourse('Node Course',[
+    new Author({ name: 'Mosh' }),
+    new Author({ name: 'Caglar' }),
+    new Author({ name: 'Ali' })
+]);
+//deleteAuthor('5cf083fb99567e9ff0278d58').then(()=>console.log('Guncellendi (Silindi)!')).catch(err=>console.log(`Hata olustu: ${err}`));
